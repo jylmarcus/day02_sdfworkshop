@@ -1,31 +1,34 @@
 package sg.edu.nus.iss;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BankAccount {
     
     //members
-    private String accountHolder;
+    private final String accountHolder;
     private String accountNumber;
     private Float accountBalance;
     private ArrayList<String> transactions;
-    private Boolean closed;
+    private Boolean isClosed;
     private String accountCreated;
     private String accountClosed;
 
     //constructors
-    public BankAccount(){
-        
+    public BankAccount(String accountHolder, String accountNumber){
+        this.accountHolder = accountHolder;
+        this.accountNumber = accountNumber;
+        this.accountBalance = 0.0f;
+
+        transactions = new ArrayList<>();
     }
 
-    public BankAccount(String accountHolder){
+    public BankAccount(String accountHolder, String accountNumber, Float accountBalance){
         this.accountHolder = accountHolder;
-        setAccountBalance((float)0);
-    }
+        this.accountNumber = accountNumber;
+        this.accountBalance = accountBalance;
 
-    public BankAccount(String accountHolder, Float accountBalance){
-        this.accountHolder = accountHolder;
-        setAccountBalance((float)accountBalance);
+        transactions = new ArrayList<>();
     }
 
     //getters
@@ -41,8 +44,8 @@ public class BankAccount {
     public ArrayList<String> getTransactions() {
         return transactions;
     }
-    public Boolean getClosed() {
-        return closed;
+    public Boolean getIsClosed() {
+        return isClosed;
     }
     public String getAccountCreated() {
         return accountCreated;
@@ -59,8 +62,8 @@ public class BankAccount {
     public void setTransactions(ArrayList<String> transactions) {
         this.transactions = transactions;
     }
-    public void setClosed(Boolean closed) {
-        this.closed = closed;
+    public void setIsClosed(Boolean isClosed) {
+        this.isClosed = isClosed;
     }
     public void setAccountCreated(String accountCreated) {
         this.accountCreated = accountCreated;
@@ -83,22 +86,30 @@ public class BankAccount {
     }
 
     //methods
-    public void deposit(Float depositAmount) throws Exception{
-        if(depositAmount > 0) {
-            this.accountBalance += depositAmount;
-            String transaction = ("deposit $" + depositAmount + " at <date time>");
-            this.transactions.add(transaction);
+    public void deposit(Float depositAmount){
+        if(isClosed) {
+            throw new IllegalArgumentException("Account has been closed. You cannot make a deposit to an inactive or closed account.");
+        } else if(depositAmount <= 0) {
+            throw new IllegalArgumentException("You cannot deposit a negative amount");
         } else {
-            throw new Exception("IllegalArgumentException");
+            this.accountBalance += depositAmount;
+            Date dt = new Date();
+            String transaction = ("deposit $" + depositAmount + "to account " + getAccountNumber() + " at " + dt.toString());
+            this.transactions.add(transaction);
         }
     }
 
-    public void withdraw(Float withdrawAmount) throws Exception{
-        if(withdrawAmount <= 0 || withdrawAmount > this.getAccountBalance()){
-            throw new Exception("IllegalArgumentException");
+    public void withdraw(Float withdrawAmount){
+        if(withdrawAmount <= 0){
+            throw new IllegalArgumentException("You cannot withdraw a negative amount");
+        } else if(withdrawAmount > this.getAccountBalance()){
+            throw new IllegalArgumentException("Withdrawal amount is more than account balance");
+        } else if(isClosed){
+            throw new IllegalArgumentException("Account is closed. You cannot withdraw from a closed account");
         } else {
             this.accountBalance -= withdrawAmount;
-            String transaction = ("withdraw $" + withdrawAmount + "at <date time>");
+            Date dt = new Date();
+            String transaction = ("withdraw $" + withdrawAmount + "to account " + getAccountNumber() + " at " + dt.toString());
             this.transactions.add(transaction);
         }
     }

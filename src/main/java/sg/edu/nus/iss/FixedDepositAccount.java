@@ -8,40 +8,51 @@ public class FixedDepositAccount extends BankAccount {
     private Boolean interestChanged = false;
     private Boolean durationChanged = false;
 
+    //constructors
+    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance){
+        super(accountHolder, accountNumber, accountBalance);
+    }
+
+    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance, Float interest){
+        super(accountHolder, accountNumber, accountBalance);
+        this.interest = 3f;
+    }
+
+    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance, Float interest, Integer duration){
+        super(accountHolder, accountNumber, accountBalance);
+        this.interest = 3f;
+        this.duration = 6;
+    }
+
     //getters and setters
     public Float getInterest() {
         return interest;
     }
-    public void setInterest(Float interest) throws Exception {
+    public void setInterest(Float interest) {
         if(getInterestChanged()){
-            throw new Exception("IllegalArgumentException");
+            throw new IllegalArgumentException("Interest has already been changed");
         } else {
             this.interest = interest;
-            setInterestChanged(true);
+            this.interestChanged = true;
         }
     }
     public Integer getDuration() {
         return duration;
     }
-    public void setDuration(Integer duration) throws Exception{
+    public void setDuration(Integer duration){
         if(getDurationChanged()){
-            throw new Exception("IllegalArgumentException");
+            throw new IllegalArgumentException("Duration has already been changed");
         } else {
             this.duration = duration;
-            setDurationChanged(true);
+            this.durationChanged = true;
         }
     }
     public Boolean getInterestChanged() {
         return interestChanged;
     }
-    public void setInterestChanged(Boolean interestChanged) {
-        this.interestChanged = interestChanged;
-    }
+
     public Boolean getDurationChanged() {
         return durationChanged;
-    }
-    public void setDurationChanged(Boolean durationChanged) {
-        this.durationChanged = durationChanged;
     }
 
 }
