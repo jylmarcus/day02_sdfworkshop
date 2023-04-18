@@ -14,6 +14,10 @@ public class BankAccount {
     private String accountClosed;
 
     //constructors
+    public BankAccount(){
+        
+    }
+
     public BankAccount(String accountHolder){
         this.accountHolder = accountHolder;
         setAccountBalance((float)0);
