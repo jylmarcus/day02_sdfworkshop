@@ -55,4 +55,8 @@ public class FixedDepositAccount extends BankAccount {
         return durationChanged;
     }
 
+    //methods
+    public Float getBalance() {
+        return this.getAccountBalance() + this.getAccountBalance()*(this.getInterest()/100f);
+    }
 }
