@@ -3,32 +3,37 @@ package sg.edu.nus.iss;
 public class FixedDepositAccount extends BankAccount {
     
     //members
-    private Float interest;
+    private float interest;
     private Integer duration;
     private Boolean interestChanged = false;
     private Boolean durationChanged = false;
 
     //constructors
-    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance){
+    
+    public FixedDepositAccount(String accountHolder, String accountNumber) {
+        super(accountHolder, accountNumber);
+    }
+
+    public FixedDepositAccount(String accountHolder, String accountNumber, float accountBalance){
         super(accountHolder, accountNumber, accountBalance);
     }
 
-    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance, Float interest){
+    public FixedDepositAccount(String accountHolder, String accountNumber, float accountBalance, float interest){
         super(accountHolder, accountNumber, accountBalance);
         this.interest = 3f;
     }
 
-    public FixedDepositAccount(String accountHolder, String accountNumber, Float accountBalance, Float interest, Integer duration){
+    public FixedDepositAccount(String accountHolder, String accountNumber, float accountBalance, float interest, Integer duration){
         super(accountHolder, accountNumber, accountBalance);
         this.interest = 3f;
         this.duration = 6;
     }
 
     //getters and setters
-    public Float getInterest() {
+    public float getInterest() {
         return interest;
     }
-    public void setInterest(Float interest) {
+    public void setInterest(float interest) {
         if(getInterestChanged()){
             throw new IllegalArgumentException("Interest has already been changed");
         } else {
@@ -56,7 +61,13 @@ public class FixedDepositAccount extends BankAccount {
     }
 
     //methods
-    public Float getBalance() {
+    public float getBalance() {
         return this.getAccountBalance() + this.getAccountBalance()*(this.getInterest()/100f);
     }
+
+    @Override
+    public void deposit(float depositAmount){System.out.println("No deposit allowed");}
+
+    @Override
+    public void withdraw(float withdrawAmount){System.out.println("No withdrawal allowed");}
 }
